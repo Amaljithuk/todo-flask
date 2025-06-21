@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .task-enter {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg mt-8 mb-8">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">To-Do List</h1>
+        <form method="POST" class="flex gap-2 mb-6">
+            <input type="text" name="title" placeholder="Enter task" required
+                   class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
+                Add Task
+            </button>
+        </form>
+        <ul class="space-y-3">
+            {% for task in tasks %}
+                <li class="task-enter flex justify-between items-center p-3 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition duration-200 {% if task.completed %}line-through text-gray-500{% endif %}">
+                    <span>{{ task.title }}</span>
+                    <a href="{{ url_for('delete', id=task.id) }}"
+                       class="text-red-500 hover:text-red-700 font-medium transition duration-200">
+                        Delete
+                    </a>
+                </li>
+            {% else %}
+                <li class="text-center text-gray-500 p-3">No tasks yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
